@@ -8,6 +8,11 @@ backend default {
 }
 
 sub vcl_recv {
+    # Handle CORS preflight
+    if (req.method == "OPTIONS") {
+        return (synth(204, "No Content"));
+    }
+
     # Only cache GET requests
     if (req.method != "GET") {
         return (pass);
@@ -38,4 +43,20 @@ sub vcl_deliver {
 
     # Remove internal headers
     unset resp.http.X-Xkey;
+
+    # CORS headers
+    set resp.http.Access-Control-Allow-Origin = "*";
+    set resp.http.Access-Control-Allow-Methods = "GET, PUT, OPTIONS";
+    set resp.http.Access-Control-Allow-Headers = "Content-Type";
+    set resp.http.Access-Control-Expose-Headers = "X-Cache, X-Cache-Hits, Age, ETag";
+}
+
+sub vcl_synth {
+    if (resp.status == 204) {
+        set resp.http.Access-Control-Allow-Origin = "*";
+        set resp.http.Access-Control-Allow-Methods = "GET, PUT, OPTIONS";
+        set resp.http.Access-Control-Allow-Headers = "Content-Type";
+        set resp.http.Access-Control-Expose-Headers = "X-Cache, X-Cache-Hits, Age, ETag";
+        return (deliver);
+    }
 }
