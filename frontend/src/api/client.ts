@@ -47,7 +47,11 @@ export function onRequestLog(listener: RequestLogListener): () => void {
 
 async function trackedFetch(url: string, options?: RequestInit): Promise<Response> {
   const start = performance.now();
-  const response = await fetch(url, options);
+  const fetchOptions = { ...options };
+  if (!fetchOptions.method || fetchOptions.method === "GET") {
+    fetchOptions.cache = "no-cache";
+  }
+  const response = await fetch(url, fetchOptions);
   const duration = Math.round(performance.now() - start);
 
   const xCache = response.headers.get("X-Cache");
