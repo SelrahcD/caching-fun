@@ -22,7 +22,6 @@ export function useUpdateTeamMembers(teamId: string) {
     mutationFn: (memberIds: string[]) => updateTeamMembers(teamId, memberIds),
     onSuccess: (updatedTeam) => {
       queryClient.setQueryData(["team", teamId], updatedTeam);
-      queryClient.invalidateQueries({ queryKey: ["teams"] });
     },
   });
 }

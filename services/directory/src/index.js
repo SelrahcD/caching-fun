@@ -60,8 +60,8 @@ app.put("/teams/:id/members", (req, res) => {
   team.memberIds = memberIds;
   teams.set(req.params.id, team);
 
-  // Purge this team's cache AND the teams list cache
-  res.set("X-Purge", `team-${team.id} teams-list`);
+  // Purge this team's cache (teams list only has id+name, unaffected by member changes)
+  res.set("X-Purge", `team-${team.id}`);
   res.json(team);
 });
 
