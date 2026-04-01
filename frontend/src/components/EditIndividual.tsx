@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useUpdateIndividual } from "../hooks/useIndividuals";
-import { Individual } from "../api/client";
+import type { Individual } from "../api/client";
 
 interface EditIndividualProps {
   individual: Individual;

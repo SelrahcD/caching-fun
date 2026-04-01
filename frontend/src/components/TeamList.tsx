@@ -1,6 +1,6 @@
 import { useTeamList } from "../hooks/useTeams";
 import { TeamCard } from "./TeamCard";
-import { Individual } from "../api/client";
+import type { Individual } from "../api/client";
 
 interface TeamListProps {
   onEditIndividual: (individual: Individual) => void;

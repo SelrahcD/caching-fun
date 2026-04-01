@@ -4,7 +4,7 @@ import { EditIndividual } from "./components/EditIndividual";
 import { EditTeamMembers } from "./components/EditTeamMembers";
 import { DebugPanel } from "./components/DebugPanel";
 import { CacheToggle } from "./components/CacheToggle";
-import { Individual } from "./api/client";
+import type { Individual } from "./api/client";
 
 function App() {
   const [editingIndividual, setEditingIndividual] = useState<Individual | null>(null);

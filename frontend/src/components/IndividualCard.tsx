@@ -1,4 +1,4 @@
-import { Individual } from "../api/client";
+import type { Individual } from "../api/client";
 
 interface IndividualCardProps {
   individual: Individual;

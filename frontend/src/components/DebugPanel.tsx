@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { onRequestLog, RequestLog } from "../api/client";
+import { onRequestLog } from "../api/client";
+import type { RequestLog } from "../api/client";
 
 export function DebugPanel() {
   const [logs, setLogs] = useState<RequestLog[]>([]);

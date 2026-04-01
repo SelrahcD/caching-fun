@@ -1,7 +1,7 @@
 import { useTeam } from "../hooks/useTeams";
 import { useIndividual } from "../hooks/useIndividuals";
 import { IndividualCard } from "./IndividualCard";
-import { Individual } from "../api/client";
+import type { Individual } from "../api/client";
 
 interface TeamCardProps {
   teamId: string;

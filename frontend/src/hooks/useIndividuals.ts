@@ -2,8 +2,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   fetchIndividual,
   updateIndividual,
-  Individual,
 } from "../api/client";
+import type { Individual } from "../api/client";
 
 export function useIndividual(id: string) {
   return useQuery({
