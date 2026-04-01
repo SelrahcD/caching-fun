@@ -3,10 +3,11 @@ const DIRECTORY_DIRECT = "http://localhost:4001";
 const INDIVIDUALS_CACHED = "http://localhost:8082";
 const INDIVIDUALS_DIRECT = "http://localhost:4002";
 
-let cacheEnabled = true;
+let cacheEnabled = localStorage.getItem("cacheEnabled") !== "false";
 
 export function setCacheEnabled(enabled: boolean) {
   cacheEnabled = enabled;
+  localStorage.setItem("cacheEnabled", String(enabled));
 }
 
 export function isCacheEnabled(): boolean {
