@@ -46,7 +46,7 @@ export function onRequestLog(listener: RequestLogListener): () => void {
 
 async function trackedFetch(url: string, options?: RequestInit): Promise<Response> {
   const start = performance.now();
-  const response = await fetch(url, options);
+  const response = await fetch(url, { ...options, cache: "no-store" });
   const duration = Math.round(performance.now() - start);
 
   const log: RequestLog = {
