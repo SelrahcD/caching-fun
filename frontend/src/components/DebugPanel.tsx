@@ -13,9 +13,9 @@ export function DebugPanel() {
   }, []);
 
   const totalRequests = logs.length;
-  const cacheHits = logs.filter((l) => l.xCache === "HIT").length;
-  const hitRatio =
-    totalRequests > 0 ? Math.round((cacheHits / totalRequests) * 100) : 0;
+  const browserHits = logs.filter((l) => l.cacheSource === "Browser Cache").length;
+  const varnishHits = logs.filter((l) => l.cacheSource === "Varnish HIT").length;
+  const misses = logs.filter((l) => l.cacheSource === "Varnish MISS" || l.cacheSource === "Direct").length;
 
   return (
     <div
@@ -43,11 +43,9 @@ export function DebugPanel() {
         }}
       >
         <span>Requests: {totalRequests}</span>
-        <span style={{ color: "#4caf50" }}>Hits: {cacheHits}</span>
-        <span style={{ color: "#f44336" }}>
-          Misses: {totalRequests - cacheHits}
-        </span>
-        <span>Hit Ratio: {hitRatio}%</span>
+        <span style={{ color: "#2196f3" }}>Browser: {browserHits}</span>
+        <span style={{ color: "#4caf50" }}>Varnish HIT: {varnishHits}</span>
+        <span style={{ color: "#f44336" }}>MISS: {misses}</span>
         <button
           onClick={() => setLogs([])}
           style={{
@@ -87,11 +85,11 @@ export function DebugPanel() {
               <td
                 style={{
                   padding: "4px",
-                  color: log.xCache === "HIT" ? "#4caf50" : log.xCache === "MISS" ? "#f44336" : "#888",
+                  color: log.cacheSource === "Browser Cache" ? "#2196f3" : log.cacheSource === "Varnish HIT" ? "#4caf50" : log.cacheSource === "Varnish MISS" ? "#f44336" : "#888",
                   fontWeight: "bold",
                 }}
               >
-                {log.xCache ?? "-"}
+                {log.cacheSource}
               </td>
               <td style={{ padding: "4px" }}>{log.age ?? "-"}</td>
               <td style={{ padding: "4px", maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis" }}>
