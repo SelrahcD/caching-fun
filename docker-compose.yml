@@ -1,0 +1,50 @@
+services:
+  directory-service:
+    build: ./services/directory
+    ports:
+      - "4001:4001"
+
+  individuals-service:
+    build: ./services/individuals
+    ports:
+      - "4002:4002"
+
+  varnish-directory:
+    image: varnish:7.6
+    ports:
+      - "8081:80"
+    volumes:
+      - ./varnish/directory.vcl:/etc/varnish/default.vcl:ro
+    depends_on:
+      - directory-service
+    command: >
+      varnishd
+      -F
+      -a :80
+      -f /etc/varnish/default.vcl
+      -s malloc,256m
+      -p feature=+http2
+
+  varnish-individuals:
+    image: varnish:7.6
+    ports:
+      - "8082:80"
+    volumes:
+      - ./varnish/individuals.vcl:/etc/varnish/default.vcl:ro
+    depends_on:
+      - individuals-service
+    command: >
+      varnishd
+      -F
+      -a :80
+      -f /etc/varnish/default.vcl
+      -s malloc,256m
+      -p feature=+http2
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - varnish-directory
+      - varnish-individuals
