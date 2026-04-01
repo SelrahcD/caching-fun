@@ -1,41 +1,25 @@
-import { useState } from "react";
-import { TeamList } from "./components/TeamList";
-import { EditIndividual } from "./components/EditIndividual";
-import { EditTeamMembers } from "./components/EditTeamMembers";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { NavBar } from "./components/NavBar";
+import { AppPage } from "./pages/AppPage";
 
-import { CacheToggle } from "./components/CacheToggle";
-import type { Individual } from "./api/client";
-
-function App() {
-  const [editingIndividual, setEditingIndividual] = useState<Individual | null>(null);
-  const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
-
+function LearnPagePlaceholder() {
   return (
     <div style={{ padding: "24px", maxWidth: "800px", margin: "0 auto" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "24px" }}>
-        <h1 style={{ margin: 0, flex: 1 }}>Company Directory</h1>
-        <CacheToggle />
-      </div>
-
-      <TeamList
-        onEditIndividual={setEditingIndividual}
-        onEditTeam={setEditingTeamId}
-      />
-
-      {editingIndividual && (
-        <EditIndividual
-          individual={editingIndividual}
-          onClose={() => setEditingIndividual(null)}
-        />
-      )}
-
-      {editingTeamId && (
-        <EditTeamMembers
-          teamId={editingTeamId}
-          onClose={() => setEditingTeamId(null)}
-        />
-      )}
+      <h1>Learn HTTP Caching</h1>
+      <p>Coming soon...</p>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<AppPage />} />
+        <Route path="/learn" element={<LearnPagePlaceholder />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
