@@ -45,33 +45,14 @@ export function onRequestLog(listener: RequestLogListener): () => void {
   };
 }
 
-function waitForPerfEntry(url: string): Promise<PerformanceResourceTiming> {
-  return new Promise((resolve) => {
-    const observer = new PerformanceObserver((list) => {
-      for (const entry of list.getEntries()) {
-        if (entry.name === url) {
-          observer.disconnect();
-          resolve(entry as PerformanceResourceTiming);
-          return;
-        }
-      }
-    });
-    observer.observe({ type: "resource", buffered: true });
-  });
-}
-
 async function trackedFetch(url: string, options?: RequestInit): Promise<Response> {
-  const perfPromise = waitForPerfEntry(url);
   const start = performance.now();
   const response = await fetch(url, options);
   const duration = Math.round(performance.now() - start);
-  const perfEntry = await perfPromise;
 
   const xCache = response.headers.get("X-Cache");
   let cacheSource: RequestLog["cacheSource"];
-  if (perfEntry.transferSize === 0) {
-    cacheSource = "Browser Cache";
-  } else if (xCache === "HIT") {
+  if (xCache === "HIT") {
     cacheSource = "Varnish HIT";
   } else if (xCache === "MISS") {
     cacheSource = "Varnish MISS";
