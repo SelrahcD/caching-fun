@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TeamList } from "./components/TeamList";
 import { EditIndividual } from "./components/EditIndividual";
 import { EditTeamMembers } from "./components/EditTeamMembers";
-import { DebugPanel } from "./components/DebugPanel";
+
 import { CacheToggle } from "./components/CacheToggle";
 import type { Individual } from "./api/client";
 
@@ -11,7 +11,7 @@ function App() {
   const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
 
   return (
-    <div style={{ padding: "24px", paddingBottom: "320px", maxWidth: "800px", margin: "0 auto" }}>
+    <div style={{ padding: "24px", maxWidth: "800px", margin: "0 auto" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "24px" }}>
         <h1 style={{ margin: 0, flex: 1 }}>Company Directory</h1>
         <CacheToggle />
@@ -35,8 +35,6 @@ function App() {
           onClose={() => setEditingTeamId(null)}
         />
       )}
-
-      <DebugPanel />
     </div>
   );
 }
