@@ -38,6 +38,7 @@ sub vcl_deliver {
     }
     set resp.http.X-Cache-Hits = obj.hits;
     unset resp.http.X-Xkey;
+    unset resp.http.xkey;
 
     # CORS headers
     set resp.http.Access-Control-Allow-Origin = "*";

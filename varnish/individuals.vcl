@@ -43,6 +43,7 @@ sub vcl_deliver {
 
     # Remove internal headers
     unset resp.http.X-Xkey;
+    unset resp.http.xkey;
 
     # CORS headers
     set resp.http.Access-Control-Allow-Origin = "*";
